@@ -19,7 +19,7 @@ const Question = () => (
         </Typography>
         <Typography>Do something</Typography>
         <LinearProgress className="lineProgress" variant="determinate" value={10} />
-        <Typography style={{ marginTop: 20 }}>Do something</Typography>
+        <Typography className="typo">Do something</Typography>
         <LinearProgress className="lineProgress" variant="determinate" value={90} />
       </CardContent>
       <CardActions>

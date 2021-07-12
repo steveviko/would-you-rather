@@ -1,5 +1,9 @@
 import React, { Component } from "react"
 import Questions from "./components/Questions"
+import LeftDrawer from "./components/TopBar"
+import TopNav from "./components/TopNav"
+import AddPollButton from "./components/AddPollBtn"
+import TopTab from "./components/TopTab"
 
 
 class App extends Component {
@@ -7,15 +11,26 @@ class App extends Component {
     isOpen: false
   }
 
+  toggleDrawer = open => () => {
+    this.setState({
+      isOpen: open
+    })
+  }
+
   
 
   render() {
     return (
       <div>
-        
-        <Questions />
-        
-      </div>
+      <TopNav toggleDrawer={this.toggleDrawer} />
+      <LeftDrawer
+        toggleDrawer={this.toggleDrawer}
+        isOpen={this.state.isOpen}
+      />
+      <TopTab />
+      <Questions />
+      <AddPollButton />
+    </div>
     )
   }
 }
