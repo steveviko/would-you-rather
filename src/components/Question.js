@@ -1,6 +1,10 @@
 import React from "react"
-import {Avatar,Typography,Card,Button,Grid,LinearProgress} from "@material-ui/core"
+import {Avatar,Typography,Card,Button,Grid,LinearProgress,List,IconButton} from "@material-ui/core"
 import { CardContent, CardActions, CardHeader } from "@material-ui/core"
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
+import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
+import DeleteIcon from "@material-ui/icons/Delete"
+import PollOption from "./PollOption"
 import './Question.css'
 
 
@@ -17,15 +21,25 @@ const Question = () => (
         <Typography gutterBottom variant="headline" component="h2">
           Would You Rather
         </Typography>
-        <Typography>Do something</Typography>
-        <LinearProgress className="lineProgress" variant="determinate" value={10} />
-        <Typography className="typo">Do something</Typography>
-        <LinearProgress className="lineProgress" variant="determinate" value={90} />
+        <div>
+          <List dense>
+          <PollOption text="Learn Redux" isChecked percent={70} />
+            <PollOption
+              text="Do something"
+              isChecked={false}
+              percent={50}
+            />
+            
+          </List>
+        </div>
       </CardContent>
       <CardActions>
-        <Button size="small" color="secondary">
-          Delete
+        <Button size="small" color="primary">
+          Answer
         </Button>
+        <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
+          <DeleteIcon />
+        </IconButton>
       </CardActions>
     </Card>
   </Grid>

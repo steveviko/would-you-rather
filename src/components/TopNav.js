@@ -1,5 +1,5 @@
 import React from "react"
-import { AppBar, Toolbar, IconButton, Typography, Button } from "@material-ui/core"
+import { AppBar, Toolbar, IconButton, Typography, Button} from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import { AccountCircle } from "@material-ui/icons"
 import './TopNav.css'
@@ -21,6 +21,7 @@ const TopNav = ({ toggleDrawer }) => (
       </Typography>
       <Button color="inherit">
         <AccountCircle />
+        
         Logout
       </Button>
     </Toolbar>
