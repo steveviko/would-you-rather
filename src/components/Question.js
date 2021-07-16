@@ -1,8 +1,9 @@
 import React from "react"
-import {Avatar,Typography,Card,Button,Grid,LinearProgress,List,IconButton} from "@material-ui/core"
+import {Avatar,Typography,Card,Button,Grid,List,IconButton} from "@material-ui/core"
 import { CardContent, CardActions, CardHeader } from "@material-ui/core"
-import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
-import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
+import { Link } from "react-router-dom"
+// import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
+// import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
 import DeleteIcon from "@material-ui/icons/Delete"
 import PollOption from "./PollOption"
 import './Question.css'
@@ -34,7 +35,7 @@ const Question = () => (
         </div>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" component={Link} to="/question">
           Answer
         </Button>
         <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>

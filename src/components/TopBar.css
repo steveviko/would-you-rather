@@ -5,3 +5,6 @@
 .badge:hover{
     color:blue;
 }
+.navLink {
+    text-decoration: none
+  }

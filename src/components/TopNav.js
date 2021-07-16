@@ -2,6 +2,7 @@ import React from "react"
 import { AppBar, Toolbar, IconButton, Typography, Button} from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import { AccountCircle } from "@material-ui/icons"
+import PropTypes from "prop-types"
 import './TopNav.css'
 
 
@@ -28,4 +29,7 @@ const TopNav = ({ toggleDrawer }) => (
   </AppBar>
 )
 
+TopNav.propTypes = {
+  toggleDrawer: PropTypes.func.isRequired
+}
 export default TopNav

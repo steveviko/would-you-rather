@@ -1,0 +1,22 @@
+.orangeAvatar{
+    margin: 10;
+    color: #fff;
+    background-color: orange; 
+  }
+  .notSelected {
+    background-color: gray;
+  }
+  .selected {
+    background-color: "transparent"
+  }
+  .userList {
+    max-height: 500;
+    overflow: auto
+  }
+  .loginCardAction{
+    padding: 20
+  }
+  .loginHeading {
+    margin-top: 10;
+    margin-bottom: 10;
+  }
