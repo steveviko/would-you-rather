@@ -9,11 +9,17 @@ import LeftDrawer from "./components/TopBar"
 import TopNav from "./components/TopNav"
 import AddPollButton from "./components/AddPollBtn"
 import TopTab from "./components/TopTab"
-
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
+import { fetchUsers } from "./actions/users"
 
 class App extends Component {
   state = {
     isOpen: false
+  }
+
+  componentDidMount() {
+    this.props.getAllUsers()
   }
 
   toggleDrawer = open => () => {
@@ -57,4 +63,8 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  getAllUsers: PropTypes.func.isRequired
+}
+
+export default connect(null, { getAllUsers: fetchUsers })(App)
