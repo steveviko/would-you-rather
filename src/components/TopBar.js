@@ -4,15 +4,23 @@ import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
 import { Add, BarChartRounded, Home} from "@material-ui/icons"
 import { Link } from "react-router-dom"
 import { Drawer, Divider, List } from "@material-ui/core"
+import { connect } from "react-redux"
+import { DrawerState, toggleDrawer } from "../actions/drawer"
 import './TopBar.css'
 
-const TopBar = ({ isOpen, toggleDrawer,classes }) => (
-  <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
+const styles = {
+  navLink: {
+    textDecoration: "none"
+  }
+}
+
+const TopBar = ({ isOpen, toggleDrawerState }) => (
+  <Drawer anchor="left" open={isOpen} onClose={() => toggleDrawerState()}>
     <div
       tabIndex={0}
       role="button"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onClick={() => toggleDrawerState()}
+      onKeyDown={() => toggleDrawerState()}
     >
       <div className="drawer-list-item">
         <List>
@@ -46,9 +54,7 @@ const TopBar = ({ isOpen, toggleDrawer,classes }) => (
           <Divider />
         </List>
         
-        {/* <Avatar aria-label="Recipe" className="profilePic">
-          S
-        </Avatar> */}
+        
       </div>
     </div>
   </Drawer>
@@ -59,8 +65,16 @@ TopBar.propTypes = {
     navLink: PropTypes.string.isRequired
   }).isRequired,
   isOpen: PropTypes.bool.isRequired,
-  toggleDrawer: PropTypes.func.isRequired
+  toggleDrawerState: PropTypes.func.isRequired
 }
 
 
-export default TopBar
+
+
+const mapStateToProps = ({ drawer }) => ({
+  isOpen: drawer === DrawerState.OPEN
+})
+
+export default connect(mapStateToProps, { toggleDrawerState: toggleDrawer })(
+  withStyles(styles)(TopBar)
+)

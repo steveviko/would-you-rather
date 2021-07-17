@@ -13,7 +13,7 @@ import './Question.css'
 
 
 
-const Question = ({ author, question }) => {
+const Question = ({ author, question, authedUser }) => {
   const { optionOne, optionTwo } = question
   const optionOnePercent = calculateVotePercent(
     question,
@@ -41,19 +41,19 @@ const Question = ({ author, question }) => {
             <List dense>
               <PollOption
                 text={optionOne.text}
-                isChecked={optionOne.votes.includes(author.id)}
+                isChecked={optionOne.votes.includes( authedUser)}
                 percent={optionOnePercent}
               />
               <PollOption
                 text={optionTwo.text}
-                isChecked={optionTwo.votes.includes(author.id)}
+                isChecked={optionTwo.votes.includes( authedUser)}
                 percent={optionTwoPercent}
               />
             </List>
           </div>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary" component={Link} to="/question">
+          <Button size="small" color="primary" component={Link}  to={`/questions/${question.id}`}>
             Answer
           </Button>
           <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
@@ -85,15 +85,17 @@ Question.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     avatarURL: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  authedUser: PropTypes.string.isRequired
 }
 
-const mapStateToProps = ({ questions, users }, { id }) => {
+const mapStateToProps = ({ questions, users,authedUser}, { id }) => {
   const question = questions[id]
   const author = question ? users[question.author] : {}
   return {
     question,
-    author
+    author,
+    authedUser
   }
 }
 

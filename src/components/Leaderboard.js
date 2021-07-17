@@ -1,8 +1,10 @@
-import React from "react"
+import React,{ Fragment } from "react"
 import PropTypes from "prop-types"
 import { Grid, Avatar, withStyles } from "@material-ui/core"
 import  {Table,TableBody, TableCell,TableHead,TableRow} from "@material-ui/core"
+import AddPollButton from "./AddPollButton"
 import Paper from "@material-ui/core/Paper"
+
 
 
 const styles = theme => ({
@@ -41,34 +43,37 @@ function Leaderboard(props) {
   const { classes } = props
 
   return (
-    <Grid className={classes.root} container>
-      <Paper className={classes.paper}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Rank</TableCell>
-              <TableCell>Profile</TableCell>
-              <TableCell>User</TableCell>
-              <TableCell numeric>Questions Asked</TableCell>
-              <TableCell numeric>Questions Answered</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map(n => (
-              <TableRow key={n.id}>
-                <TableCell>{n.id}</TableCell>
-                <TableCell>
-                  <Avatar className={classes.orangeAvatar}>DP</Avatar>
-                </TableCell>
-                <TableCell>{n.name}</TableCell>
-                <TableCell numeric>{n.calories}</TableCell>
-                <TableCell numeric>{n.fat}</TableCell>
+    <Fragment>
+      <Grid className={classes.root} container>
+        <Paper className={classes.paper}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Rank</TableCell>
+                <TableCell>Profile</TableCell>
+                <TableCell>User</TableCell>
+                <TableCell numeric>Questions Asked</TableCell>
+                <TableCell numeric>Questions Answered</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    </Grid>
+              </TableHead>
+            <TableBody>
+              {data.map(n => (
+                <TableRow key={n.id}>
+                  <TableCell>{n.id}</TableCell>
+                  <TableCell>
+                    <Avatar className={classes.orangeAvatar}>DP</Avatar>
+                  </TableCell>
+                  <TableCell>{n.name}</TableCell>
+                  <TableCell numeric>{n.calories}</TableCell>
+                  <TableCell numeric>{n.fat}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </Grid>
+      <AddPollButton />
+    </Fragment>
   )
 }
 
