@@ -12,6 +12,7 @@ import TopTab from "./components/TopTab"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { fetchUsers } from "./actions/users"
+import PrivateRoute from "./components/PrivateRoute"
 
 class App extends Component {
   state = {
@@ -41,20 +42,20 @@ class App extends Component {
             toggleDrawer={this.toggleDrawer}
             isOpen={this.state.isOpen}
           />
-          <Route
+          <PrivateRoute
             path="/"
             exact
-            render={() => (
+            component={() => (
               <Fragment>
                 <TopTab />
                 <Questions toggleDrawer={this.toggleDrawer} />
               </Fragment>
             )}
           />
-          <Route path="/leaderboard" component={Leaderboard} />
+         <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <Route path="/login" component={Login} />
-          <Route path="/create" component={AddPoll} />
-          <Route path="/question" component={AnswerPoll} />
+          <PrivateRoute path="/question" component={AnswerPoll} />
+          <PrivateRoute path="/add" component={AddPoll} />
           <AddPollButton />
         </Fragment>
       </Router>

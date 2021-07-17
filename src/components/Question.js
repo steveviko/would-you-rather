@@ -6,44 +6,95 @@ import { Link } from "react-router-dom"
 // import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
 import DeleteIcon from "@material-ui/icons/Delete"
 import PollOption from "./PollOption"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import { formatDate, calculateVotePercent } from "../util/helpers"
 import './Question.css'
 
 
 
-const Question = () => (
-  <Grid item xs={12} sm={6} lg={4} xl={3}>
-    <Card>
-      <CardHeader
-        avatar={<Avatar aria-label="Recipe">S</Avatar>}
-        title="have horrible short term memory"
-        subheader="September 10, 2021"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="headline" component="h2">
-          Would You Rather
-        </Typography>
-        <div>
-          <List dense>
-          <PollOption text="Learn Redux" isChecked percent={70} />
-            <PollOption
-              text="Do something"
-              isChecked={false}
-              percent={50}
-            />
-            
-          </List>
-        </div>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary" component={Link} to="/question">
-          Answer
-        </Button>
-        <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
-          <DeleteIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
-  </Grid>
-)
+const Question = ({ author, question }) => {
+  const { optionOne, optionTwo } = question
+  const optionOnePercent = calculateVotePercent(
+    question,
+    author.id,
+    "optionOne"
+  )
+  const optionTwoPercent = calculateVotePercent(
+    question,
+    author.id,
+    "optionTwo"
+  )
+  return (
+    <Grid item xs={12} sm={6} lg={4} xl={3}>
+      <Card>
+        <CardHeader
+          avatar={<Avatar aria-label="Recipe" src={author.avatarURL} />}
+          title={author.name}
+          subheader={formatDate(question.timestamp)}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="headline" component="h2">
+            Would You Rather
+          </Typography>
+          <div>
+            <List dense>
+              <PollOption
+                text={optionOne.text}
+                isChecked={optionOne.votes.includes(author.id)}
+                percent={optionOnePercent}
+              />
+              <PollOption
+                text={optionTwo.text}
+                isChecked={optionTwo.votes.includes(author.id)}
+                percent={optionTwoPercent}
+              />
+            </List>
+          </div>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary" component={Link} to="/question">
+            Answer
+          </Button>
+          <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
+            <DeleteIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </Grid>
+  )
+}
 
-export default Question
+
+
+Question.propTypes = {
+  question: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
+    optionOne: PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      votes: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+    }).isRequired,
+    optionTwo: PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      votes: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+    }).isRequired
+  }).isRequired,
+  author: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    avatarURL: PropTypes.string.isRequired
+  }).isRequired
+}
+
+const mapStateToProps = ({ questions, users }, { id }) => {
+  const question = questions[id]
+  const author = question ? users[question.author] : {}
+  return {
+    question,
+    author
+  }
+}
+
+export default connect(mapStateToProps)(Question)
