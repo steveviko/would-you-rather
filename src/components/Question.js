@@ -20,6 +20,11 @@ const Question = ({ author, question, authedUser }) => {
     author.id,
     "optionOne"
   )
+  const isChecked = option =>
+  optionOnePercent !== 0 || optionTwoPercent !== 0
+    ? option.votes.includes(authedUser)
+    : null
+
   const optionTwoPercent = calculateVotePercent(
     question,
     author.id,
@@ -41,12 +46,12 @@ const Question = ({ author, question, authedUser }) => {
             <List dense>
               <PollOption
                 text={optionOne.text}
-                isChecked={optionOne.votes.includes( authedUser)}
+                isChecked={isChecked(optionOne)}
                 percent={optionOnePercent}
               />
               <PollOption
                 text={optionTwo.text}
-                isChecked={optionTwo.votes.includes( authedUser)}
+                isChecked={isChecked(optionTwo)}
                 percent={optionTwoPercent}
               />
             </List>

@@ -1,4 +1,5 @@
 import { _getQuestions, _saveQuestion, _saveQuestionAnswer} from "../util/_DATA"
+import { showMessage } from "./message"
 import { showLoading, hideLoading } from "react-redux-loading-bar"
 
 export const QUESTIONS_FETCHED = "QUESTIONS_FETCHED"
@@ -26,6 +27,7 @@ export const fetchQuestions = () => dispatch => {
   _getQuestions().then(questions => {
     dispatch(questionsFetched(questions))
     dispatch(hideLoading())
+    dispatch(showMessage("Poll Created Successfully"))
   })
 }
 
@@ -36,6 +38,7 @@ export const handleAddQuestion = question => dispatch => {
   _saveQuestion(question).then(res => {
     dispatch(hideLoading())
     dispatch(addQuestion(res))
+    dispatch(showMessage("Answer update was Successfull"))
   })
 }
 
