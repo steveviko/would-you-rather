@@ -1,14 +1,18 @@
 import React from "react"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { Paper } from "@material-ui/core"
 import  { Tabs,Tab } from "@material-ui/core"
-import { toggleQuestionVisibilityFilter, UNANSWERED, ANSWERED} from "../actions/questionVisibilityFilter"
+import { toggleQuestionVisibilityFilter,  QuestionFilters} from "../actions/questionVisibilityFilter"
 
 const TopTab = ({ questionVisibilityFilter, changeQuestionVisibilityFilter}) => (
   <Paper>
     <Tabs
-      value={questionVisibilityFilter === UNANSWERED ? 0 : 1}
+       value={questionVisibilityFilter === QuestionFilters.UNANSWERED ? 0 : 1}
       onChange={(e, value) =>
-        changeQuestionVisibilityFilter(value === 0 ? UNANSWERED : ANSWERED)
+        changeQuestionVisibilityFilter(
+          value === 0 ? QuestionFilters.UNANSWERED : QuestionFilters.ANSWERED
+        )
       }
       indicatorColor="primary"
       textColor="primary"

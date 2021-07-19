@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
 import { Add, BarChartRounded, Home} from "@material-ui/icons"
 import { Link } from "react-router-dom"
-import { Drawer, Divider, List } from "@material-ui/core"
+import { Drawer, Divider, List, withStyles} from "@material-ui/core"
 import { connect } from "react-redux"
 import { DrawerState, toggleDrawer } from "../actions/drawer"
 import './TopBar.css'

@@ -1,5 +1,5 @@
 import React from "react"
-import { AppBar, Toolbar, IconButton, Typography, Button} from "@material-ui/core"
+import { AppBar, Toolbar, IconButton, Typography, Button,Avatar} from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import { AccountCircle } from "@material-ui/icons"
 import { connect } from "react-redux"
@@ -8,6 +8,18 @@ import { toggleDrawer } from "../actions/drawer"
 import PropTypes from "prop-types"
 import './TopNav.css'
 
+const styles = {
+  iconButton: {
+    marginLeft: -12,
+    marginRight: 20
+  },
+  flex: {
+    flex: 1
+  },
+  profilePic: {
+    marginRight: 5
+  }
+}
 
 const TopNav = ({ toggleDrawerState, user, doLogout }) => (
   <AppBar position="static">

@@ -1,15 +1,20 @@
 import React, { Fragment } from "react"
-import { Grid } from "@material-ui/core"
+import { Grid,withStyles } from "@material-ui/core"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import Question from "./Question"
-import AddPollButton from "./AddPollButton"
+import AddPollButton from "./AddPollBtn"
 import TopTab from "./TopTab"
+import { getFilterdQuestions } from "../util/helpers"
 import { ANSWERED } from "../actions/questionVisibilityFilter"
 import './Questions.css'
 
   
-
+const styles = {
+  spacing: {
+    padding: 20
+  }
+}
 
 const Questions = ({ classes, questionIds }) => (
   <Fragment>
@@ -34,23 +39,12 @@ const mapStateToProps = ({
   questions,
   authedUser,
   questionVisibilityFilter
-}) => {
-  if (questionVisibilityFilter === ANSWERED) {
-    return {
-      questionIds: Object.keys(questions).filter(
-        qid =>
-          questions[qid].optionOne.votes.includes(authedUser) ||
-          questions[qid].optionTwo.votes.includes(authedUser)
-      )
-    }
-  }
-  return {
-    questionIds: Object.keys(questions).filter(
-      qid =>
-        !questions[qid].optionOne.votes.includes(authedUser) &&
-        !questions[qid].optionTwo.votes.includes(authedUser)
-    )
-  }
-}
+}) => ({
+  questionIds: getFilterdQuestions(
+    questions,
+    authedUser,
+    questionVisibilityFilter
+  ).sort((a, b) => questions[b].timestamp - questions[a].timestamp)
+})
 
 export default connect(mapStateToProps)(withStyles(styles)(Questions))

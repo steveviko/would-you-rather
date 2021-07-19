@@ -10,6 +10,7 @@ import TopNav from "./components/TopNav"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { fetchUsers } from "./actions/users"
+import LoadingBar from "react-redux-loading-bar"
 import PrivateRoute from "./components/PrivateRoute"
 
 class App extends Component {
@@ -28,7 +29,7 @@ class App extends Component {
       <div>
        <Router>
         <Fragment>
-         
+        <LoadingBar />
           <TopNav />
           <LeftDrawer />
           <PrivateRoute path="/" exact component={Questions} />

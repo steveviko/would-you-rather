@@ -5,7 +5,7 @@ import {Avatar,Typography,Card,Button,Grid,IconButton,withStyles} from "@materia
 import { CardContent, CardActions, CardHeader } from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { Radio,RadioGroup } from "@material-ui/core"
-import AddPollButton from "./AddPollButton"
+import AddPollButton from "./AddPollBtn"
 import {  formatDate } from "../util/helpers"
 import { FormControl, FormControlLabel } from "@material-ui/core"
 import { handleAnserQuestion } from "../actions/questions"
