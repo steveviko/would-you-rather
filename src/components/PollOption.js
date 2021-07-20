@@ -14,20 +14,20 @@ const styles = theme => ({
   }
 })
 
-const PollOption = ({ classes, isChecked, text, percent }) => (
+const PollOption = ({ classes, isChecked, text, votes, percent }) => (
   <ListItem>
-    {isChecked !== null && (
-      <ListItemIcon>
-       {isChecked ? <Done className={classes.radioBtn} /> : <span />}
-      </ListItemIcon>
-    )}
+     <ListItemIcon>
+      {isChecked ? <Done className={classes.radioBtn} /> : <span />}
+    </ListItemIcon>
     <ListItemText>
-    {`${text} (${percent})`}
+    {text}
+    {`(${votes} votes | ${percent}%)`}
       <LinearProgress
         className={classes.progressBar}
         variant="determinate"
         value={percent}
       />
+      
     </ListItemText>
   </ListItem>
 )
@@ -41,9 +41,10 @@ PollOption.propTypes = {
     progressBar: PropTypes.string.isRequired,
     radioBtn: PropTypes.string.isRequired
   }).isRequired,
-  isChecked: PropTypes.bool,
+  isChecked: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
-  percent: PropTypes.number.isRequired
+  percent: PropTypes.number.isRequired,
+  votes: PropTypes.number.isRequired
 }
 
 export default withStyles(styles)(PollOption)
