@@ -1,10 +1,8 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
-import { Typography, Card, Grid, Button, Divider, Checkbox, Avatar, withStyles} from "@material-ui/core"
-import  {List, ListItem, ListItemSecondaryAction, ListItemText} from "@material-ui/core"
+import { Typography, Card, Grid, Button,List, Divider, withStyles} from "@material-ui/core"
 import { CardActions } from "@material-ui/core"
 import { connect } from "react-redux"
-// import { fetchUsers } from "../actions/users"
 import {  Redirect } from "react-router-dom"
 import { setAuthedUser } from "../actions/authedUser"
 import { fetchQuestions } from "../actions/questions"
@@ -22,17 +20,18 @@ const styles = {
   },
   loginHeading: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 20,
+   fontSize:20
   }
 }
 
 class Login extends React.Component {
   state = {
-    selectedUser: null,
-    redirectToReferrer: false
+    redirectToReferrer: false,
+    selectedUser: null
   }
 
-  handleToggle = value =>  {
+  handleToggle = value => {
     this.setState({
       selectedUser: value
     })
@@ -45,9 +44,9 @@ class Login extends React.Component {
       redirectToReferrer: true
     })
   }
-  
+
   render() {
-    const { classes, userIds} = this.props
+    const { classes, userIds } = this.props
     const { from } = this.props.location.state || { from: { pathname: "/" } }
     const { redirectToReferrer } = this.state
 
@@ -61,12 +60,12 @@ class Login extends React.Component {
           <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
           <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>
             <Card style={{ textAlign: "center", marginTop: 20 }}>
-              <Typography className="loginHeading" variant="display3">
-                Login
+              <Typography className={classes.loginHeading} variant="display3">
+                LOGIN
               </Typography>
               <Divider />
               <List className={classes.userList}>
-              {userIds &&
+                {userIds &&
                   userIds.map(id => (
                     <div
                       role="button"
@@ -88,7 +87,6 @@ class Login extends React.Component {
                   variant="raised"
                   color="primary"
                   style={{ marginLeft: "auto" }}
-                  
                   disabled={!this.state.selectedUser}
                   onClick={this.handleLoginClick}
                 >
@@ -104,28 +102,28 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-    classes: PropTypes.shape({
-      orangeAvatar: PropTypes.string.isRequired,
-      notSelected: PropTypes.string.isRequired,
-      selected: PropTypes.string.isRequired,
-      userList: PropTypes.string.isRequired,
-      loginCardAction: PropTypes.string.isRequired,
-      loginHeading: PropTypes.string.isRequired
-    }).isRequired,
-    userIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    login: PropTypes.func.isRequired,
-    getPolls: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      state: PropTypes.shape({
-        from: PropTypes.shape({
-          pathname: PropTypes.string.isRequired
-        })
+  classes: PropTypes.shape({
+    userList: PropTypes.string.isRequired,
+    loginCardAction: PropTypes.string.isRequired,
+    loginHeading: PropTypes.string.isRequired
+  }).isRequired,
+  userIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  login: PropTypes.func.isRequired,
+  getPolls: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      from: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
       })
-    }).isRequired
-  }
+    })
+  }).isRequired
+}
 
-  const mapStateToProps = ({ users }) => ({
-    userIds: Object.keys(users)
-  })
+const mapStateToProps = ({ users }) => ({
+  userIds: Object.keys(users)
+})
 
-  export default connect(mapStateToProps, {login: setAuthedUser,getPolls: fetchQuestions })(withStyles(styles)(Login))
+export default connect(mapStateToProps, {
+  login: setAuthedUser,
+  getPolls: fetchQuestions
+})(withStyles(styles)(Login))

@@ -16,7 +16,7 @@ export const calculateVotePercent = (question,  option) => {
     return `${time.substr(0, 5) + time.slice(-2)} | ${d.toLocaleDateString()}`
   }
 
-  export const getFilterdQuestions = (
+  export const getFilteredQuestions = (
     questions,
     authedUser,
     questionVisibilityFilter

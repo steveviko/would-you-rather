@@ -4,7 +4,8 @@ import Login from "./components/Login"
 import Leaderboard from "./components/Leaderboard"
 import AddPoll from "./components/AddPoll"
 import AnswerPoll from "./components/AnswerPoll"
-import Questions from "./components/Questions"
+import QuestionsContainer from "./components/QuestionsContainer"
+
 import TopBar from "./components/TopBar"
 import TopNav from "./components/TopNav"
 import { connect } from "react-redux"
@@ -14,6 +15,8 @@ import LoadingBar from "react-redux-loading-bar"
 import Message from "./components/Message"
 import NotFound from "./components/NotFound"
 import PrivateRoute from "./components/PrivateRoute"
+import Profile from "./components/Profile"
+import TopTab from "./components/TopTab"
 
 class App extends Component {
   state = { }
@@ -35,11 +38,13 @@ class App extends Component {
           <TopNav />
           <TopBar />
           <Switch>
-            <PrivateRoute path="/" exact component={Questions} />
+            <PrivateRoute path="/" exact component={() => (
+            <Fragment><TopTab /><QuestionsContainer /> </Fragment> )} />
             <PrivateRoute path="/leaderboard" component={Leaderboard} />
             <Route path="/login" component={Login} />
             <PrivateRoute path="/create" component={AddPoll} />
             <PrivateRoute path="/questions/:id" component={AnswerPoll} />
+            <PrivateRoute path="/profile" component={Profile} />
             <Route component={NotFound} />
           </Switch>
           <Message />

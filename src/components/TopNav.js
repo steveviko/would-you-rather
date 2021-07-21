@@ -1,7 +1,8 @@
 import React,{ Component, Fragment } from "react"
-import { Link } from "react-router-dom"
+import { Link,withRouter } from "react-router-dom"
 import { AppBar, Toolbar, IconButton, Typography,  withStyles,Avatar} from "@material-ui/core"
 import MenuIcon,{Menu, MenuItem} from "@material-ui/icons/Menu"
+
 import { ArrowDropDown } from "@material-ui/icons"
 // import { AccountCircle } from "@material-ui/icons"
 import { connect } from "react-redux"
@@ -42,7 +43,7 @@ class TopNav extends Component {
   }
 
   render() {
-    const { classes, toggleDrawerState, user, doLogout } = this.props
+    const { classes, toggleDrawerState, user, doLogout, history } = this.props
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     return (
@@ -79,7 +80,6 @@ class TopNav extends Component {
               />
               <div>
                 <IconButton
-                  className={classes.arrowdropDown}
                   aria-owns={open ? "menu-appbar" : null}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
@@ -104,6 +104,7 @@ class TopNav extends Component {
                   <MenuItem
                     onClick={() => {
                       this.handleClose()
+                      history.push("/profile")
                     }}
                   >
                     Profile
@@ -132,6 +133,9 @@ TopNav.propTypes = {
   user: PropTypes.shape({
     avatarURL: PropTypes.string.isRequired
   }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
   classes: PropTypes.shape({
     profilePic: PropTypes.string.isRequired,
     pageTitleLink: PropTypes.string.isRequired
@@ -145,4 +149,10 @@ TopNav.defaultProps = {
 const mapStateToProps = ({ authedUser, users }) => ({
   user: users[authedUser]
 })
-export default connect(mapStateToProps, { doLogout: logout, toggleDrawerState: toggleDrawer })(withStyles(styles)(TopNav) )
+
+export default withRouter(
+  connect(mapStateToProps, {
+    doLogout: logout,
+    toggleDrawerState: toggleDrawer
+  })(withStyles(styles)(TopNav))
+)

@@ -26,22 +26,8 @@ const styles = theme => ({
   }
 })
 
-let id = 0
-function createData(name, calories, fat) {
-  id += 1
-  return { id, name, calories, fat }
-}
-
-const data = [
-  createData("Frozen yoghurt", 159, 6),
-  createData("Ice cream sandwich", 237, 9),
-  createData("Eclair", 262, 16.0),
-  createData("Cupcake", 305, 3),
-  createData("Gingerbread", 356, 16.0)
-]
-
 function Leaderboard(props) {
-  const { classes,users } = props
+  const { classes, users } = props
 
   return (
     <Fragment>
@@ -56,20 +42,19 @@ function Leaderboard(props) {
                 <TableCell numeric>Questions Asked</TableCell>
                 <TableCell numeric>Questions Answered</TableCell>
               </TableRow>
-              </TableHead>
+            </TableHead>
             <TableBody>
-            {users.map((user, index) => (
+              {users.map((user, index) => (
                 <TableRow key={user.id}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>
-                  <Avatar src={user.avatarURL} />
+                    <Avatar src={user.avatarURL} />
                   </TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell numeric>{user.questions.length}</TableCell>
                   <TableCell numeric>
                     {Object.keys(user.answers).length}
                   </TableCell>
-                  
                 </TableRow>
               ))}
             </TableBody>

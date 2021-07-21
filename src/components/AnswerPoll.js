@@ -1,4 +1,5 @@
 import React,{ Fragment } from "react"
+import { Redirect } from "react-router-dom"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import {Avatar,Typography,Card,Button,Grid,IconButton,withStyles,List} from "@material-ui/core"
@@ -9,7 +10,7 @@ import AddPollButton from "./AddPollBtn"
 import { calculateVotePercent, formatDate } from "../util/helpers"
 import { FormControl, FormControlLabel } from "@material-ui/core"
 import PollOption from "./PollOption"
-import { handleAnserQuestion } from "../actions/questions"
+import { handleAnserQuestion,handleDeleteQuestion } from "../actions/questions"
 
 const styles = {
   margin: {
@@ -38,9 +39,13 @@ class AnswerPoll extends React.Component {
 
   render() {
 
-    const { classes, question, author,isAnswered, authedUser } = this.props
+    const { classes, question, author,isAnswered, authedUser, isLoading,deleteQuestion,history} = this.props
+    if (!isLoading && !question) {
+      return <Redirect to="/404" />
+    }
+
     if (!question) {
-      return <div>question not present</div>
+      return <div />
     }
 
     const { optionOne, optionTwo } = question
@@ -110,9 +115,18 @@ class AnswerPoll extends React.Component {
                     Answer
                   </Button>
                 )}
-                <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
-                  <DeleteIcon />
-                </IconButton>
+                {question.author === authedUser && (
+                  <IconButton
+                    aria-label="Delete"
+                    style={{ marginLeft: "auto" }}
+                    onClick={() => {
+                      deleteQuestion(question.id)
+                      history.push("/")
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                )}
               </CardActions>
             </Card>
           </Grid>
@@ -143,10 +157,14 @@ AnswerPoll.propTypes = {
     avatarURL: PropTypes.string.isRequired
   }).isRequired,
   authedUser: PropTypes.string.isRequired,
+  isAnswered: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   saveAnswer: PropTypes.func.isRequired,
+  deleteQuestion: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
-  }),
+  }).isRequired
+  
 }
 
 AnswerPoll.defaultProps = {
@@ -154,7 +172,7 @@ AnswerPoll.defaultProps = {
   author: null
 }
 
-const mapStateToProps = ({ questions, users, authedUser }, props) => {
+const mapStateToProps = ({ questions, users, authedUser,loadingBar }, props) => {
   const { id } = props.match.params
   const question = questions[id]
   let isAnswered = false
@@ -170,8 +188,9 @@ const mapStateToProps = ({ questions, users, authedUser }, props) => {
     question,
     author: question ? users[question.author] : null,
     authedUser,
-    isAnswered
+    isAnswered,
+    isLoading: loadingBar.default === 1
   }
 }
 
-export default connect(mapStateToProps, { saveAnswer: handleAnserQuestion })(withStyles(styles)(AnswerPoll))
+export default connect(mapStateToProps, { saveAnswer: handleAnserQuestion,deleteQuestion: handleDeleteQuestion })(withStyles(styles)(AnswerPoll))

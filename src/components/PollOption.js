@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { LinearProgress, withStyles } from "@material-ui/core"
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
-import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
+
 import { Done } from "@material-ui/icons"
 
 const styles = theme => ({
@@ -16,10 +16,12 @@ const styles = theme => ({
 
 const PollOption = ({ classes, isChecked, text, votes, percent }) => (
   <ListItem>
-     <ListItemIcon>
-      {isChecked ? <Done className={classes.radioBtn} /> : <span />}
+  {isChecked && (
+    <ListItemIcon>
+      <Done className={classes.radioBtn} />
     </ListItemIcon>
-    <ListItemText>
+  )}
+  <ListItemText inset>
     {text}
     {`(${votes} votes | ${percent}%)`}
       <LinearProgress

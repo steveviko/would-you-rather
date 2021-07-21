@@ -1,9 +1,10 @@
-import { _getQuestions, _saveQuestion, _saveQuestionAnswer} from "../util/_DATA"
+import { _getQuestions, _saveQuestion, _saveQuestionAnswer,_deleteQuestion} from "../util/_DATA"
 import { showMessage } from "./message"
 import { showLoading, hideLoading } from "react-redux-loading-bar"
 
 export const QUESTIONS_FETCHED = "QUESTIONS_FETCHED"
 export const ADD_QUESTION = "ADD_QUESTION"
+export const DELETE_QUESTION = "DELETE_QUESTION"
 export const SAVE_QUESTION_ANSWER = "SAVE_QUESTION_ANSWER"
 
 
@@ -11,6 +12,11 @@ export const SAVE_QUESTION_ANSWER = "SAVE_QUESTION_ANSWER"
 export const questionsFetched = questions => ({
   type: QUESTIONS_FETCHED,
   questions
+})
+
+export const deleteQuestion = qid => ({
+  type: DELETE_QUESTION,
+  qid
 })
 
 export const addQuestion = question => ({
@@ -22,30 +28,37 @@ export const saveQuestionAnswer = info => ({
   info
 })
 
-export const fetchQuestions = () => dispatch => {
+export const fetchQuestions = () => async dispatch => {
   dispatch(showLoading())
-  _getQuestions().then(questions => {
-    dispatch(questionsFetched(questions))
-    dispatch(hideLoading())
-    dispatch(showMessage("Poll Created Successfully"))
-  })
+  const questions = await _getQuestions()
+  dispatch(questionsFetched(questions))
+  dispatch(hideLoading())
+}
+
+export const handleAddQuestion = question => async dispatch => {
+  dispatch(showLoading())
+  const res = await _saveQuestion(question)
+  dispatch(hideLoading())
+  dispatch(addQuestion(res))
+  dispatch(showMessage("Poll Added Successfully"))
 }
 
 
 
-export const handleAddQuestion = question => dispatch => {
+
+export const handleAnserQuestion = info => async dispatch => {
   dispatch(showLoading())
-  _saveQuestion(question).then(res => {
-    dispatch(hideLoading())
-    dispatch(addQuestion(res))
-    dispatch(showMessage("Answer update was Successfull"))
-  })
+  await _saveQuestionAnswer(info)
+  dispatch(hideLoading())
+  dispatch(saveQuestionAnswer(info))
+  dispatch(showMessage("Answer updated Successfully"))
 }
 
-export const handleAnserQuestion = info => dispatch => {
+
+export const handleDeleteQuestion = qid => async dispatch => {
   dispatch(showLoading())
-  _saveQuestionAnswer(info).then(() => {
-    dispatch(hideLoading())
-    dispatch(saveQuestionAnswer(info))
-  })
+  await _deleteQuestion(qid)
+  dispatch(hideLoading())
+  dispatch(deleteQuestion(qid))
+  dispatch(showMessage("Question deleted successfully"))
 }
