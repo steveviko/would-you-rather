@@ -2,8 +2,8 @@ let users = {
  
     lazyduck408: {
       id: "lazyduck408",
-      name: "Romain Hoogmoed",
-      avatarURL: "https://randomuser.me/api/portraits/men/13.jpg",
+      name: "Nico Albert",
+      avatarURL: "https://randomuser.me/api/portraits/men/17.jpg",
     answers: {
       "8xf0y6ziyjabvozdd253nd": "optionOne",
       "6ni6ok3ym7mf1p33lnez": "optionOne",
@@ -14,7 +14,7 @@ let users = {
   },
   avalawrence: {
     id: "avalawrence",
-    name: "Ava Lawrence",
+    name: "Jay Joyce",
     avatarURL: "https://randomuser.me/api/portraits/women/45.jpg",
     answers: {
       vthrdm985a262al8qx3do: "optionOne",
@@ -24,7 +24,7 @@ let users = {
   },
   wendyfuller: {
     id: "wendyfuller",
-    name: "Wendy Fuller",
+    name: "Eve Muhindo",
     avatarURL: "https://randomuser.me/api/portraits/women/80.jpg",
     answers: {
       xj352vofupe1dqz9emx13r: "optionOne",
@@ -189,6 +189,40 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
         }
       }
 
+      res()
+    }, 500)
+  })
+}
+
+export function _deleteQuestion(qid) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      users = Object.keys(users).reduce((acc, userId) => {
+        acc[userId] = {
+          ...users[userId],
+          questions: users[userId].questions.filter(q => q !== qid),
+          answers: Object.keys(users[userId].answers).reduce(
+            (answersAcc, ansId) => {
+              if (qid !== ansId) {
+                return {
+                  ...answersAcc,
+                  [ansId]: users[userId].answers[ansId]
+                }
+              }
+              return answersAcc
+            },
+            {}
+          )
+        }
+        return acc
+      }, {})
+
+      questions = Object.keys(questions).reduce((acc, questionId) => {
+        if (questionId !== qid) {
+          acc[questionId] = questions[questionId]
+        }
+        return acc
+      }, {})
       res()
     }, 500)
   })

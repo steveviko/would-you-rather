@@ -2,7 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import { LinearProgress, withStyles } from "@material-ui/core"
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
-import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
+
+import { Done } from "@material-ui/icons"
 
 const styles = theme => ({
   progressBar: {
@@ -13,24 +14,22 @@ const styles = theme => ({
   }
 })
 
-const PollOption = ({ classes, isChecked, text, percent }) => (
+const PollOption = ({ classes, isChecked, text, votes, percent }) => (
   <ListItem>
-    {isChecked !== null && (
-      <ListItemIcon>
-        {isChecked ? (
-          <RadioButtonChecked className={classes.radioBtn} />
-        ) : (
-          <RadioButtonUnchecked className={classes.radioBtn} />
-        )}
-      </ListItemIcon>
-    )}
-    <ListItemText>
-      {text}
+  {isChecked && (
+    <ListItemIcon>
+      <Done className={classes.radioBtn} />
+    </ListItemIcon>
+  )}
+  <ListItemText inset>
+    {text}
+    {`(${votes} votes | ${percent}%)`}
       <LinearProgress
         className={classes.progressBar}
         variant="determinate"
         value={percent}
       />
+      
     </ListItemText>
   </ListItem>
 )
@@ -44,9 +43,10 @@ PollOption.propTypes = {
     progressBar: PropTypes.string.isRequired,
     radioBtn: PropTypes.string.isRequired
   }).isRequired,
-  isChecked: PropTypes.bool,
+  isChecked: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
-  percent: PropTypes.number.isRequired
+  percent: PropTypes.number.isRequired,
+  votes: PropTypes.number.isRequired
 }
 
 export default withStyles(styles)(PollOption)
